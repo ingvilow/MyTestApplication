@@ -1,7 +1,7 @@
 package com.example.mytestapplication.domain
 
-class AddShopItem {
+class AddShopItem(private val shopListRepository: ShopListRepository) {
     fun addShopItem(shopItem: ShopItem){
-        TODO()
+        shopListRepository.addShopItem(shopItem)
     }
 }

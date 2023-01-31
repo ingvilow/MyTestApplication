@@ -1,10 +1,10 @@
 package com.example.mytestapplication.domain
 
-class EditShopItem {
+class EditShopItem(private val shopListRepository: ShopListRepository) {
 
-    fun editShopItem(shopItem: Int) :  ShopItem{
+    fun editShopItem(shopItem: ShopItem){
         //go to the next page using id (not the whole object) when try to edit shop item
-        TODO()
+        shopListRepository.editShopItem(shopItem)
     }
 
 }
