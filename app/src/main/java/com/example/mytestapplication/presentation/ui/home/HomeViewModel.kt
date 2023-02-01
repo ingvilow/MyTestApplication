@@ -19,24 +19,21 @@ class HomeViewModel : ViewModel() {
     private val editShopItem = EditShopItem(repository)
 
     //mutablelivedata is heir of abstract class LiveData so we can't use pure LiveData and should use mutablelivedata instead
-    val shopList = MutableLiveData<List<ShopItem>>()
+    //after creation mutablelist we can remove func getShopList and call list like this below
 
+    val shopList = getShopItemUseCase.getShopList()
 
-    fun getListShop(){
-        val list = getShopItemUseCase.getShopList()
-        shopList.postValue(list)
-    }
 
     // delete item and update list
     fun deleteItemInShopList(shopItem: ShopItem){
        deleteShopItemUseCase.deleteShopItem(shopItem)
-        getListShop()
+
     }
 
     fun editItemListShop(shopItem: ShopItem){
         val newValue = shopItem.copy(enabled = !shopItem.enabled)
         editShopItem.editShopItem(newValue)
-        getListShop()
+
     }
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

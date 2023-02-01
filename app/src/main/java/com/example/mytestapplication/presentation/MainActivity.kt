@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel : HomeViewModel
+    private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,8 +41,14 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         viewModel.shopList.observe(this){
             Log.d("Here we go", it.toString())
+            if (count == 0){
+                count++
+                val item = it[0]
+                viewModel.deleteItemInShopList(item)
+            }
+
         }
-        viewModel.getListShop()
+
 
     }
 }

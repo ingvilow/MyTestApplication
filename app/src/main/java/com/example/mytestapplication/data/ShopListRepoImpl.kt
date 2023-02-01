@@ -1,12 +1,15 @@
 package com.example.mytestapplication.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.mytestapplication.domain.ShopItem
 import com.example.mytestapplication.domain.ShopListRepository
 import java.lang.RuntimeException
 
 //if i am going to add something in added DB's here I can write it
 object ShopListRepoImpl : ShopListRepository {
-
+    //we create MutableLiveData to update lists after some manipulations wuth it
+    private val shopListLD = MutableLiveData<List<ShopItem>>()
     //create variable which will be collection and here we can keep all the stuff
     private val shopList = mutableListOf<ShopItem>()
 
@@ -19,9 +22,9 @@ object ShopListRepoImpl : ShopListRepository {
     }
     //create variable with auto increment id due to the next element can have id automatically when we added it in list
     private var autoIncrementId = 0
-    override fun getShopList(): List<ShopItem> {
-        //it returns copy of shoplist because it is not a good practice to return the original list
-       return  shopList.toList()
+
+    override fun getShopList(): LiveData<List<ShopItem>> {
+       return  shopListLD
     }
 
     override fun getOneShopItemById(shopItemId: Int): ShopItem {
@@ -38,9 +41,14 @@ object ShopListRepoImpl : ShopListRepository {
     override fun addShopItem(shopItem: ShopItem) {
        shopItem.id = autoIncrementId++
        shopList.add(shopItem)
+        updateList()
     }
 
     override fun deleteShopItem(shopItem: ShopItem) {
        shopList.remove(shopItem)
+        updateList()
+    }
+    private fun updateList(){
+        shopListLD.value = shopList.toList()
     }
 }
