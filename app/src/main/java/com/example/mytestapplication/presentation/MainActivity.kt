@@ -1,19 +1,22 @@
 package com.example.mytestapplication.presentation
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mytestapplication.R
 import com.example.mytestapplication.databinding.ActivityMainBinding
+import com.example.mytestapplication.presentation.ui.home.HomeViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var viewModel : HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,5 +35,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //bind live data from view model to main activity
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        viewModel.shopList.observe(this){
+            Log.d("Here we go", it.toString())
+        }
+        viewModel.getListShop()
+
     }
 }

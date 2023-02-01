@@ -10,6 +10,13 @@ object ShopListRepoImpl : ShopListRepository {
     //create variable which will be collection and here we can keep all the stuff
     private val shopList = mutableListOf<ShopItem>()
 
+    //initialize items to fullfill ShopItem for testing purpose
+    init {
+        for (i in 0 until 20){
+            val listItem = ShopItem("Name $i", "Description $i", i, true)
+            addShopItem(listItem)
+        }
+    }
     //create variable with auto increment id due to the next element can have id automatically when we added it in list
     private var autoIncrementId = 0
     override fun getShopList(): List<ShopItem> {
