@@ -9,14 +9,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mytestapplication.R
 import com.example.mytestapplication.databinding.ActivityMainBinding
+import com.example.mytestapplication.presentation.list_adapter.ShopListAdapter
 import com.example.mytestapplication.presentation.ui.home.HomeViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel : HomeViewModel
+    private lateinit var adapter: ShopListAdapter
     private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +39,21 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        setupRVShopItem()
         //bind live data from view model to main activity
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         viewModel.shopList.observe(this){
             Log.d("Here we go", it.toString())
-            if (count == 0){
-                count++
-                val item = it[0]
-                viewModel.deleteItemInShopList(item)
-            }
+          adapter.list = it
 
         }
 
 
+    }
+
+    private fun setupRVShopItem(){
+        val rvShopList = findViewById<RecyclerView>(R.id.recyclerview)
+        adapter = ShopListAdapter()
+        rvShopList.adapter = adapter
     }
 }

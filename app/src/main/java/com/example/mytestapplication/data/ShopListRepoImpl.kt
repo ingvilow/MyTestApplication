@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mytestapplication.domain.ShopItem
 import com.example.mytestapplication.domain.ShopListRepository
 import java.lang.RuntimeException
+import kotlin.random.Random
 
 //if i am going to add something in added DB's here I can write it
 object ShopListRepoImpl : ShopListRepository {
@@ -15,8 +16,8 @@ object ShopListRepoImpl : ShopListRepository {
 
     //initialize items to fullfill ShopItem for testing purpose
     init {
-        for (i in 0 until 20){
-            val listItem = ShopItem("Name $i", "Description $i", i, true)
+        for (i in 0 until 40){
+            val listItem = ShopItem("Name $i", "Description $i", i, Random.nextBoolean())
             addShopItem(listItem)
         }
     }
