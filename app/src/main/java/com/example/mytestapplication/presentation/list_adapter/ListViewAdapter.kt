@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytestapplication.R
 import com.example.mytestapplication.domain.ShopItem
+import com.example.mytestapplication.presentation.ShopListAdapterDiffCallBack
 import java.lang.RuntimeException
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
@@ -21,8 +23,12 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     //it is bad desihgn pattern to use notifyDataSetChanged()
     var list = listOf<ShopItem>()
         set(value) {
+            /*all this stuff need beacuse we are triyng to set up functionaluty which will be calculate was it changed or not*/
+            val callback = ShopListAdapterDiffCallBack(list, value)
+            val diffResult = DiffUtil.calculateDiff(callback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
+
         }
 
 
