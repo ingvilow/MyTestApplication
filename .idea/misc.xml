@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/frame_textview.xml" value="0.253125" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/fragment_notifications.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/frame_textview.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/MyTestApplication/app/src/main/res/layout/frame_textview_disabled.xml" value="0.12941176470588237" />
       </map>
     </option>
   </component>
