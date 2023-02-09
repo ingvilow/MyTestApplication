@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mytestapplication.data.ShopListRepoImpl
+import com.example.mytestapplication.data.ShopListRepoImpl.getShopList
 import com.example.mytestapplication.domain.DeleteShopItem
 import com.example.mytestapplication.domain.EditShopItem
 import com.example.mytestapplication.domain.GetShopItemUseCase
@@ -35,6 +36,15 @@ class HomeViewModel : ViewModel() {
         editShopItem.editShopItem(newValue)
 
     }
+
+    // i was so shured I wrote this code before but seems I don't
+    fun changeEnableState(shopItem: ShopItem) {
+          val newItem = shopItem.copy(enabled = !shopItem.enabled)
+          editShopItem.editShopItem(newItem)
+          getShopList()
+      }
+
+
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
     }
