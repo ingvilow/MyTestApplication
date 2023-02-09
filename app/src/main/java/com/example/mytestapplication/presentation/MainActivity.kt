@@ -1,8 +1,6 @@
 package com.example.mytestapplication.presentation
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -16,6 +14,7 @@ import com.example.mytestapplication.databinding.ActivityMainBinding
 import com.example.mytestapplication.domain.ShopItem
 import com.example.mytestapplication.presentation.list_adapter.ShopListAdapter
 import com.example.mytestapplication.presentation.ui.home.HomeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         //bind live data from view model to main activity
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         viewModel.shopList.observe(this){
-          adapter.list = it
+          adapter.submitList(it)
 
         }
 
@@ -88,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = adapter.list[viewHolder.adapterPosition]
+                val item = adapter.currentList[viewHolder.adapterPosition]
                 viewModel.deleteItemInShopList(item)
             }
         }
