@@ -1,29 +1,15 @@
 package com.example.mytestapplication.presentation.list_adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.example.mytestapplication.R
 import com.example.mytestapplication.domain.ShopItem
-import java.lang.RuntimeException
+import com.example.mytestapplication.presentation.ShopItemViewHolder
+import com.example.mytestapplication.presentation.ShopListAdapterDiffCallBack
 
-class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
-
-    class ShopItemViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-        val shop_text_items = view.findViewById<TextView>(R.id.text_view_shop)
-        val shop_text_items2 = view.findViewById<TextView>(R.id.text_view_shop2)
-    }
-
-    //it is bad desihgn pattern to use notifyDataSetChanged()
-    var list = listOf<ShopItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapterDiffCallBack()) {
 
 
     //it can be changed to lambda expression
@@ -50,20 +36,15 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     // add some UI elements in here
     // also all this big stuff was made just to create view element ONLY ONE time
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-        val shopItem = list[position]
+        val shopItem = getItem(position)
         onLongClick(holder, shopItem)
         onFastClick(holder, shopItem)
         holder.shop_text_items.text = shopItem.name
         holder.shop_text_items2.text = shopItem.description
-        /*if (shopItem.enabled){
-            holder.shop_text_items.text = "${shopItem.name} $enabledStatus"
-            holder.shop_text_items2.text = shopItem.description
-            holder.shop_text_items.setTextColor(
-                ContextCompat.getColor(holder.view.context, android.R.color.black))
-        }*/
-
     }
 
+
+    //TODO: smth wrong here I need to check
     private fun onFastClick(
         holder: ShopItemViewHolder,
         shopItem: ShopItem
@@ -86,7 +67,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
     // understand by element's position what item is enabled or not
     override fun getItemViewType(position: Int): Int {
-        val shops = list[position]
+        val shops = getItem(position)
        return if (shops.enabled){
            ENABLED
         }else{
@@ -103,9 +84,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         holder.shop_text_items.setTextColor(
             ContextCompat.getColor(holder.view.context, android.R.color.black))
     }
-    override fun getItemCount(): Int {
-       return list.size
-    }
+
 
     //I CAN CREATE INSIDE RECYCLERVIEW INTERFACE???? WHF IS MAGIC?????
     interface changeListState{
