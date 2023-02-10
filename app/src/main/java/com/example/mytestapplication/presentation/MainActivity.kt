@@ -1,5 +1,6 @@
 package com.example.mytestapplication.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -15,11 +16,12 @@ import com.example.mytestapplication.domain.ShopItem
 import com.example.mytestapplication.presentation.list_adapter.ShopListAdapter
 import com.example.mytestapplication.presentation.ui.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel : HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     private lateinit var adapter: ShopListAdapter
     private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +37,10 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications,
+                R.layout.second_lpage_layout
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -43,25 +48,31 @@ class MainActivity : AppCompatActivity() {
         setupRVShopItem()
         //bind live data from view model to main activity
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        viewModel.shopList.observe(this){
-          adapter.submitList(it)
+        viewModel.shopList.observe(this) {
+            adapter.submitList(it)
 
         }
-
-
+        val buttonAdd = findViewById<FloatingActionButton>(R.id.floationButton)
+        buttonAdd.setOnClickListener {
+            val intent = Intent(this, SecondPageActivity::class.java)
+            intent.putExtra("extra", "modd")
+            startActivity(intent)
+        }
     }
 
-    private fun setupRVShopItem(){
+    private fun setupRVShopItem() {
         val rvShopList = findViewById<RecyclerView>(R.id.recyclerview)
-        with(rvShopList.adapter){
+        with(rvShopList.adapter) {
             adapter = ShopListAdapter()
             rvShopList.adapter = adapter
             rvShopList.recycledViewPool.setMaxRecycledViews(
                 ShopListAdapter.ENABLED,
-                ShopListAdapter.POOL_VIEW)
+                ShopListAdapter.POOL_VIEW
+            )
             rvShopList.recycledViewPool.setMaxRecycledViews(
                 ShopListAdapter.DISABLED,
-                ShopListAdapter.POOL_VIEW)
+                ShopListAdapter.POOL_VIEW
+            )
         }
 
         //it is more java style rather than kotlin
@@ -72,18 +83,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun editItem(shopItem: ShopItem) {
-               viewModel.editItemListShop(shopItem)
+                viewModel.editItemListShop(shopItem)
             }
 
         }
-        val swipeHandler = object : ItemTouchHelper.SimpleCallback(0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        val swipeHandler = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-               return false
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -94,4 +107,5 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
-    }
+
+}
