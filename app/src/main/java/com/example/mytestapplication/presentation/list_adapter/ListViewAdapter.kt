@@ -1,15 +1,15 @@
 package com.example.mytestapplication.presentation.list_adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytestapplication.R
 import com.example.mytestapplication.domain.ShopItem
-import java.lang.RuntimeException
+
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
@@ -39,11 +39,11 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             DISABLED -> R.layout.frame_textview_disabled
             else -> throw RuntimeException("Unkown")
         }
-       val view = LayoutInflater.from(parent.context).inflate(
-           R.layout.frame_textview,
-           parent,
-           false
-       )
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.frame_textview,
+            parent,
+            false
+        )
         return ShopItemViewHolder(view)
     }
 
@@ -55,12 +55,6 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         onFastClick(holder, shopItem)
         holder.shop_text_items.text = shopItem.name
         holder.shop_text_items2.text = shopItem.description
-        /*if (shopItem.enabled){
-            holder.shop_text_items.text = "${shopItem.name} $enabledStatus"
-            holder.shop_text_items2.text = shopItem.description
-            holder.shop_text_items.setTextColor(
-                ContextCompat.getColor(holder.view.context, android.R.color.black))
-        }*/
 
     }
 
@@ -87,8 +81,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     // understand by element's position what item is enabled or not
     override fun getItemViewType(position: Int): Int {
         val shops = list[position]
-       return if (shops.enabled){
-           ENABLED
+        return if (shops.enabled){
+            ENABLED
         }else{
             DISABLED
         }
@@ -104,7 +98,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             ContextCompat.getColor(holder.view.context, android.R.color.black))
     }
     override fun getItemCount(): Int {
-       return list.size
+        return list.size
     }
 
     //I CAN CREATE INSIDE RECYCLERVIEW INTERFACE???? WHF IS MAGIC?????
@@ -122,5 +116,6 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         const val POOL_VIEW: Int = 10
     }
 }
+
 
 
