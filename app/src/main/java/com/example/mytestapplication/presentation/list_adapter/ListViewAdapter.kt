@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mytestapplication.R
 import com.example.mytestapplication.domain.ShopItem
-import com.example.mytestapplication.presentation.ShopItemViewHolder
-import com.example.mytestapplication.presentation.ShopListAdapterDiffCallBack
+
 
 class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapterDiffCallBack()) {
 
@@ -25,11 +25,11 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
             DISABLED -> R.layout.frame_textview_disabled
             else -> throw RuntimeException("Unkown")
         }
-       val view = LayoutInflater.from(parent.context).inflate(
-           R.layout.frame_textview,
-           parent,
-           false
-       )
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.frame_textview,
+            parent,
+            false
+        )
         return ShopItemViewHolder(view)
     }
 
@@ -67,9 +67,9 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
 
     // understand by element's position what item is enabled or not
     override fun getItemViewType(position: Int): Int {
-        val shops = getItem(position)
-       return if (shops.enabled){
-           ENABLED
+        val shops = list[position]
+        return if (shops.enabled){
+            ENABLED
         }else{
             DISABLED
         }
@@ -83,6 +83,10 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
         holder.shop_text_items2.text = ""
         holder.shop_text_items.setTextColor(
             ContextCompat.getColor(holder.view.context, android.R.color.black))
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
     }
 
 
@@ -101,5 +105,6 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
         const val POOL_VIEW: Int = 10
     }
 }
+
 
 
