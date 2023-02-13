@@ -1,5 +1,6 @@
 package com.example.mytestapplication.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +13,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytestapplication.R
 import com.example.mytestapplication.databinding.ActivityMainBinding
-import com.example.mytestapplication.domain.ShopItem
 import com.example.mytestapplication.presentation.list_adapter.ShopListAdapter
 import com.example.mytestapplication.presentation.ui.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,6 +51,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.floationButton)
+        buttonAddItem.setOnClickListener(){
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
     }
 
     private fun setupRVShopItem() {
@@ -91,7 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         adapter.onShopItemClickListener = {
-            Log.d("MainActivity", it.toString())
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
