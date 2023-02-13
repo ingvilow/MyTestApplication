@@ -13,7 +13,9 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
 
 
     //it can be changed to lambda expression
-    var changeListStateR: changeListState? = null
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
 
     // inflate  is kinda hard operation,
@@ -37,33 +39,17 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopListAdapte
     // also all this big stuff was made just to create view element ONLY ONE time
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopItem = getItem(position)
-        onLongClick(holder, shopItem)
-        onFastClick(holder, shopItem)
+        holder.view.setOnLongClickListener {
+            onShopItemLongClickListener?.invoke(shopItem)
+            true
+        }
+        holder.view.setOnClickListener {
+            onShopItemClickListener?.invoke(shopItem)
+        }
         holder.shop_text_items.text = shopItem.name
         holder.shop_text_items2.text = shopItem.description
     }
 
-
-    //TODO: smth wrong here I need to check
-    private fun onFastClick(
-        holder: ShopItemViewHolder,
-        shopItem: ShopItem
-    ) {
-        holder.view.setOnClickListener {
-            changeListStateR?.editItem(shopItem)
-            true
-        }
-    }
-
-    private fun onLongClick(
-        holder: ShopItemViewHolder,
-        shopItem: ShopItem
-    ) {
-        holder.view.setOnLongClickListener {
-            changeListStateR?.onClickChangeColorItem(shopItem)
-            true
-        }
-    }
 
     // understand by element's position what item is enabled or not
     override fun getItemViewType(position: Int): Int {
